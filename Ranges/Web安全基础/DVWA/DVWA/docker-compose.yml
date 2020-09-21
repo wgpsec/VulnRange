@@ -1,0 +1,7 @@
+version: '3'
+services:
+ web:
+   image: vulnerables/web-dvwa
+   container_name: DVWA
+   ports:
+    - "80"

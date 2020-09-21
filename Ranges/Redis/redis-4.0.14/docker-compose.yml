@@ -1,0 +1,7 @@
+version: '3'
+services:
+ redis:
+   image: vulhub/redis:4.0.14
+   container_name: redis-4.0.14
+   ports:
+    - "6379:6379"

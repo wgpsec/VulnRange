@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Vuln-Range（漏洞靶场）{% endblock %}
+
+{% block content %}
+<nav>
+	<div class="container">
+            <div class="logo">
+                <a href="#"><img src="{{ url_for('static', filename='images/VulnRange.png') }}" style="height: 25px;width: 25px;margin-right: 4px;">Vuln-Range</a>
+            </div>
+
+            <ul class="layui-nav right" lay-filter="">
+                <li class="layui-nav-item"><a href="/admin" style="color: #0080FF" data-type="all">靶场管理</a></li>
+            </ul>
+    </div>
+</nav>
+<body class="index">
+<!-- 左侧菜单开始 -->
+<ul class="layui-nav layui-nav-tree " style="width: 14.5%"><!--layui-nav-side-->
+     {% for p_cate in p_cates %}
+         <li class="layui-nav-item">
+                 <a onclick="xadmin.add_tab(`{{ p_cate['fcate_name'] }}`,`{{ url_for('index.questions_list',p_cate=p_cate['fcate_name']) }}`)">{{ p_cate['fcate_name'] }}</a>
+         </li>
+    {% endfor %}
+</ul>
+<!-- 左侧菜单结束 -->
+
+        <!-- 右侧主体开始 -->
+        <div class="page-content">
+            <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+                <ul class="layui-tab-title">
+                    <li class="home">
+                        <i class="layui-icon">&#xe68e;</i>欢迎
+                    </li>
+                </ul>
+                <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
+                    <dl>
+                        <dd data-type="this">关闭当前</dd>
+                        <dd data-type="other">关闭其它</dd>
+                        <dd data-type="all">关闭全部</dd></dl>
+                </div>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe src="{{ url_for('index.welcome') }}" frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+            layui.use(['form', 'layer','laydate'],
+            function () {
+                $ = layui.jquery;
+                var form = layui.form,
+                layer = layui.layer;
+                laydate = layui.laydate;
+
+                //监听提交
+                form.on('submit(search_list)', function(data) {
+                    $.post(data.form.action,data.field);
+                    var p_cate2=document.getElementById('p_c').getAttribute("value");
+                    console.log(p_cate2);
+                    console.log(data.field);
+                    $.ajax({
+                            type:"post",
+                            url: "{{ url_for('index.questions_list', p_cate=p_cate2) }}", //不带url会请求当前url
+                            data:{"s_cate":data.field['s_cate']},
+                        success:function (dd) {
+                                //对应的值传回，输出下，是整个HTML页面
+                                //console.log(dd);
+                                document.write(dd);//直接输出整个页面
+                            document.close();
+                            layer.alert("题目列表已刷新", {
+                        icon: 6
+                    });
+                            },error:function () {
+                                layer.alert('请求失败');}
+                        });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+{% endblock %}

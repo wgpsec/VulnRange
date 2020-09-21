@@ -1,0 +1,11 @@
+version: '3'
+services:
+ web:
+   image: php:apache
+   container_name: open_basedir
+   volumes:
+    - ./www:/var/www/html
+    - ./flag_is_here:/flag{c86d237d22d668b3257a359ffbdfdeb6}
+    - ./php.ini:/usr/local/etc/php/php.ini
+   ports:
+    - "80"

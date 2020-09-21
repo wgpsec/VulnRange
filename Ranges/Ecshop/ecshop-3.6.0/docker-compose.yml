@@ -1,0 +1,13 @@
+version: '2'
+services:
+ ecshop36:
+   image: vulhub/ecshop:3.6.0
+   container_name: ecshop-3.6.0
+   depends_on:
+    - mysql
+   ports:
+    - "80"
+ mysql:
+   image: mysql:5.5
+   environment: 
+    - MYSQL_ROOT_PASSWORD=root

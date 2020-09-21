@@ -1,0 +1,9 @@
+version: '3'
+services:
+ web:
+   image: php:apache
+   container_name: filter_cat
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  phpfpm:
+    image: antswordproject/antsword-labs:php-7.2.18-fpm
+    container_name: disable_functions_4
+    volumes:
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/start.sh:/start.sh
+      - ./php-fpm/index.php:/var/www/html/index.php
+    command: /bin/sh /start.sh
+  nginx:
+    image: nginx:1.17
+    depends_on:
+      - phpfpm
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/start.sh:/start.sh
+    command: /bin/sh /start.sh
+    ports:
+      - "80"
+      - "443"

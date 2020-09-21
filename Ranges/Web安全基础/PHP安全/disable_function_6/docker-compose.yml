@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: antswordproject/antsword-labs:bypass_disable_functions_8
+    container_name: disable_functions_6
+    ports:
+      - "80"

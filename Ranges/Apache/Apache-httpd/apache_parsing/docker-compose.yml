@@ -1,0 +1,12 @@
+version: '3'
+services:
+ apache:
+   image: php:apache
+   container_name: apache_parsing
+   volumes:
+    - ./www:/var/www/html
+    - ./conf/docker-php.conf:/etc/apache2/conf-enabled/docker-php.conf
+    - ./start.sh:/var/www/start.sh
+   command: /bin/sh /var/www/start.sh
+   ports:
+    - "80"

@@ -1,0 +1,7 @@
+version: '3'
+services:
+ web:
+   image: vulhub/fastjson:1.2.24
+   container_name: 1.2.24-rce
+   ports:
+    - "8090"

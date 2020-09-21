@@ -1,0 +1,9 @@
+version: '3'
+services:
+ php:
+   image: php:apache
+   container_name: method
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"

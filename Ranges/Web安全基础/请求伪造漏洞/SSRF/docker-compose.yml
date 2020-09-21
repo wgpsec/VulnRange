@@ -1,0 +1,10 @@
+version: '3'
+services:
+ web:
+   image: php:apache
+   container_name: SSRF
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"
+

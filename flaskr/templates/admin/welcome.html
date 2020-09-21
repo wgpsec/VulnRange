@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content%}
+   <body>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据统计</div>
+                        <div class="layui-card-body ">
+                            <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>靶机数</h3>
+                                        <p>
+                                            {% for qt in q_total %}
+                                            <cite>{{qt['count(id)']}}</cite>
+                                            {% endfor %}
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                </div>
+   <iframe src="{{ url_for('static', filename='html/sm.html') }}" style="width: 100%;height: 480px;"></iframe>
+   </body>
+{% endblock %}

@@ -1,0 +1,9 @@
+version: '3'
+services:
+ php:
+   image: php:apache
+   container_name: Weak_type
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"

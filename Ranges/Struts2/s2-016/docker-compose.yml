@@ -1,0 +1,7 @@
+version: '3'
+services:
+ struts2:
+   build: .
+   container_name: s2-016
+   ports:
+    - "8080"

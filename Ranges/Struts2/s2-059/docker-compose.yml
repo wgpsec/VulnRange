@@ -1,0 +1,7 @@
+version: '3'
+services:
+ struts2:
+   image: vulhub/struts2:2.5.16
+   container_name: s2-059
+   ports:
+    - "8080"

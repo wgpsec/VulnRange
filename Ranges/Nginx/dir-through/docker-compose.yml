@@ -1,0 +1,11 @@
+version: '3'
+services:
+ nginx:
+   image: vulhub/nginx:1
+   container_name: dir-through
+   volumes:
+    - ./configuration:/etc/nginx/conf.d
+    - ./files/:/home/
+    - ./www/:/usr/share/nginx/html/
+   ports:
+    - "8081"

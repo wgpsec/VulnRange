@@ -1,0 +1,7 @@
+version: '3'
+services:
+ web:
+   image: c0ny1/sqli-labs:0.1
+   container_name: sqli-labs
+   ports:
+    - "80"

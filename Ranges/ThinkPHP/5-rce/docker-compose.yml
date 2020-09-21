@@ -1,0 +1,7 @@
+version: '3'
+services:
+ web:
+   image: vulhub/thinkphp:5.0.20
+   container_name: 5-rce
+   ports:
+    - "80"

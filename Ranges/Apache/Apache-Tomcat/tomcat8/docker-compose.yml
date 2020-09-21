@@ -1,0 +1,13 @@
+version: '3'
+services:
+ tomcat:
+   image: vulhub/tomcat:8.0
+   container_name: tomcat8
+   volumes:
+    - ./flag_is_here:/flag_is_here
+    - ./web.xml:/usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml
+    - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    - ./context.xml:/usr/local/tomcat/webapps/manager/META-INF/context.xml
+    - ./context.xml:/usr/local/tomcat/webapps/host-manager/META-INF/context.xml
+   ports:
+    - "8080"

@@ -1,0 +1,7 @@
+version: '3'
+services:
+ rsync:
+   build: .
+   container_name: rsync
+   ports:
+    - "873:873"

@@ -1,0 +1,28 @@
+<?php
+header("Access-Control-Allow-Origin: *");//设置允许跨域，用来判断题目环境是否开启
+$res=0;
+if (isset($_GET['ip']) && $_GET['ip']) {
+	$cmd = "ping -c 4 {$_GET['ip']}";
+	exec($cmd,$res);
+	if ($res) {
+    	print_r($res);
+	}
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>命令执行-无过滤</title>
+</head>
+<body>
+
+<form action="#" method="GET">
+    <label>IP : </label><br>
+    <input type="text" name="ip">
+    <input type="submit" value="Ping">
+</form>
+
+</body>
+</html>

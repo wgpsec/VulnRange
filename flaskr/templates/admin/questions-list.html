@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+
+                        <div class="layui-card-body ">
+                        <form class="layui-form">
+                            <div class="layui-input-inline">
+                                <select name="p_cate" lay-verify="" lay-filter="p_cate">
+                                    <option value="" disabled selected>请选择主类</option>
+                                    {% for p_cate in p_cates %}
+                                    <option value="{{p_cate['fcate_name'] }}">{{p_cate['fcate_name']}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="layui-input-inline">
+                                <select name="s_cate" lay-verify="" lay-filter="s_cate">
+                                    <option value="" disabled selected>请选择子类</option>
+                                    <option id="type" ></option>
+                                </select>
+                            </div>
+                        </form>
+                        </div>
+
+                        <div class="layui-card-header">
+                            <button class="layui-btn" onclick="xadmin.open('添加靶机','/admin/create-questions',450,450)"><i class="layui-icon"></i>添加</button>
+                        </div>
+                        <div class="layui-card-body layui-table-body layui-table-main">
+                            <table class="layui-table layui-form">
+                                <thead>
+                                  <tr>
+                                      <th>序号</th>
+                                      <th>靶机名称</th>
+                                      <th>靶机描述</th>
+                                      <th>靶机主类</th>
+                                      <th>靶机子类</th>
+                                      <th>操作</th>
+                                  </tr>
+                                </thead>
+                                {% for list in lists %}
+                                <tbody>
+                                  <tr>
+                                      <td>{{loop.index}}</td>
+                                    <td>{{list['title']}}</td>
+                                      <td>{{list['hint']}}</td>
+                                      <td>{{list['p_cate']}}</td>
+                                      <td>{{list['s_cate']}}</td>
+                                    <td class="td-manage">
+                                      <a title="编辑"  onclick="xadmin.open('编辑',`{{ url_for('admin.questions_edit', id=list['id']) }}`,450,450)" href="javascript:;">
+                                        <i class="layui-icon">&#xe642;</i>
+                                      </a>
+                                      <a title="删除"  href="{{ url_for('admin.questions_del', id=list['id']) }}">
+                                        <i class="layui-icon" onclick="return confirm('确定删除?');">&#xe640;</i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   <script>
+            layui.use(['form', 'layer'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form;
+                layer = layui.layer;
+
+                 //下拉菜单二级联动
+                    form.on('select(p_cate)',function (data) {
+                        //监听到了下拉框选择的选项，传递过来
+                        //在控制台输出信息
+                        var fcate_name = data.value;
+	                    console.log(fcate_name);
+	                    //再利用ajax将数据传到后端，来获取到对应下拉框选项而出现的值
+                        $.ajax({
+                            type:"post",
+                            url:"/admin/second_action",
+                            data:{"fcate_name":fcate_name},
+                            dataType:"json",
+                            success:function (d) {
+                                //对应的值传回，拼出html下拉框语句
+                                console.log(d)
+                                var tmp=document.getElementById("type");
+                                for (var i in d){
+                                    //console.log(d[i])
+                                    tmp +='<option value="'+d[i]+'">'+d[i]+'</option>';
+                                    console.log(tmp);
+                                }
+                                $("select[name='s_cate']").append(tmp);
+                                form.render('select');
+
+                            },error:function () {
+                                layer.alert('请求失败');}
+                        });
+                        });
+
+                    form.on('select(s_cate)',function (data) {
+                        var scate_name = data.value;
+                        $.ajax({
+                            type:"post",
+                            url:"/admin/questions-list",
+                            data:{"scate_name":scate_name},
+                            success:function (q_list) {
+                                //对应的值传回
+                                document.body.innerHTML="";
+                                document.write(q_list);
+                            },error:function () {
+                                layer.alert('请求失败');}
+                        });
+                        });
+
+            });
+        </script>
+    </body>
+
+{% endblock %}

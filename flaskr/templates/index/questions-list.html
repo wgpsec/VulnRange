@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<body >
+<input id="p_c" value="{{p_cate}}" style="display: none"/> {#传递靶机主分类#}
+<div class="layui-card-body ">
+<form class="layui-form">
+    <div class="layui-input-inline">
+
+        <select name="s_cate">
+            <option value="" disabled selected>请选择子类</option>
+            <option id="type" ></option>
+        </select>
+
+    </div>
+
+    <div class="layui-input-inline">
+        <button class="layui-btn" lay-submit="" lay-filter="search_list">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+    </div>
+</form>
+</div>
+
+<div class="layui-row" style="margin-left: 8%;" id="list" name="list">
+    {% for list in lists %}
+    <div class="layui-col-md4" id="test2">
+          <button type="button"  class="layui-btn layui-btn-lg" id="btn" onclick="xadmin.open(`{{list['title']}}`,`{{ url_for('index.range_info', qid=list['id']) }}`,450,250)">
+              {{list['title']}}<br>
+              {% for qid in qids %}
+              {% endfor %}
+          </button>
+    </div>
+    {% endfor %}
+
+</div>
+<style>
+.solve{
+    font-size: 19px;
+    margin-left: 26%;
+    margin-top: 5px;
+}
+</style>
+
+<script>
+            layui.use(['form', 'layer','laydate'],
+            function () {
+                $ = layui.jquery;
+                var form = layui.form,
+                layer = layui.layer;
+                laydate = layui.laydate,
+
+                 //下拉菜单获取
+                    (function s_list() {
+
+                        var fcate_name=document.getElementById('p_c').getAttribute("value")
+                        //获取题目主类名字，传递过来
+                        //在控制台输出信息
+	                    console.log(fcate_name);
+	                    //再利用ajax将数据传到后端，来获取到对应下拉框选项而出现的值
+                        $.ajax({
+                            type:"post",
+                            //url:"/admin/second_action",
+                            url:"{{ url_for('admin.second_action') }}",
+                            data:{"fcate_name":fcate_name},
+                            dataType:"json",
+                            success:function (d) {
+                                //对应的值传回，拼出html下拉框语句
+                                //console.log(d.length)
+                                if (d.length>0){
+                                var tmp=document.getElementById("type");
+                                for (var i in d){
+                                    //console.log(d[i])
+                                    tmp +='<option value="'+d[i]+'">'+d[i]+'</option>';
+                                    //console.log(tmp);
+                                }
+                                $("select[name='s_cate']").append(tmp);
+                                form.render('select');
+                                }else {
+                                    var tmp2='<option value="" disabled selected>当前分类无子分类</option>';
+                                    $("select[name='s_cate']").append(tmp2);
+                                    form.render('select');
+                                }
+                            },error:function () {
+                                layer.alert('请求失败');}
+                        });
+                        }());
+
+
+                //监听提交
+                form.on('submit(search_list)', function(data) {
+                    $.post(data.form.action,data.field);
+                    var p_cate2=document.getElementById('p_c').getAttribute("value");
+                    console.log(p_cate2);
+                    console.log(data.field);
+                    $.ajax({
+                            type:"post",
+                            //url: "{{ url_for('index.questions_list', p_cate=p_cate2) }}", 不带url会请求当前url
+                            data:{"s_cate":data.field['s_cate']},
+                        success:function (dd) {
+                                document.write(dd);//直接输出整个页面
+                            document.close();
+
+                            },error:function () {
+                                layer.alert('请求失败');}
+                        });
+                    return false;
+                });
+            });
+        </script>
+</body>
+{% endblock %}

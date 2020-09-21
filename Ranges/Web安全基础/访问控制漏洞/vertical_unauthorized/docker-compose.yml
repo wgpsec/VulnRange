@@ -1,0 +1,26 @@
+version: '3'
+services:
+ web:
+   depends_on:
+    - db-vertical-unauthorized
+   environment: 
+    - DB_HOST=db:3306
+   build: .
+   container_name: vertical_unauthorized
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"
+ db-vertical-unauthorized:
+   image: mysql:5.7.26
+   container_name: mysql-vertical-unauthorized
+   command:
+    --default_authentication_plugin=mysql_native_password
+    --character-set-server=utf8mb4
+    --collation-server=utf8mb4_unicode_ci
+   volumes:
+    - ./www/db:/var/lib/mysql
+    - ./www/init:/docker-entrypoint-initdb.d/
+   environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: vertical-unauthorized

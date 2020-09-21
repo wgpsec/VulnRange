@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}题目分类{% endblock %}
+{% block content %}
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+
+                         <div class="layui-card-header">
+                            <button class="layui-btn" onclick="xadmin.open('添加父分类','/admin/create-cate',400,200)"><i class="layui-icon"></i>添加父分类</button>
+                        </div>
+
+                        <div class="layui-card-body ">
+                            <table class="layui-table layui-form">
+                              <thead>
+                                <tr>
+
+                                  <th>一级分类</th>
+                                  <th>操作</th>
+                              </thead>
+                              <tbody class="x-cate">
+                              {% for zhul in p_cates %}
+                                <tr cate-id="{{zhul['fid']}}" fid='0' >
+                                  <td>
+                                    <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                                      {{zhul['fcate_name']}}
+                                  </td>
+
+                                  <td class="td-manage">
+                                    <a title="编辑"  onclick="xadmin.open('编辑',`{{ url_for('admin.p_cate_edit', id=zhul['fid']) }}`,600,400)" href="javascript:;" class="layui-btn layui-btn layui-btn-xs">
+                                        <i class="layui-icon">&#xe642;</i>编辑
+                                      </a>
+                                    <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="xadmin.open('添加子分类',`{{ url_for('admin.create_s_cate', id=zhul['fid']) }}`,600,400)" ><i class="layui-icon">&#xe642;</i>添加子分类</button>
+                                    <a title="删除"  href="{{ url_for('admin.p_cate_del', id=zhul['fid']) }}" class="layui-btn layui-btn-danger layui-btn-xs">
+                                       <i class="layui-icon" onclick="return confirm('确定删除?');">&#xe640;删除</i>
+                                    </a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+
+                            <thead>
+                                <tr>
+                                  <th>二级分类</th>
+                                  <th>操作</th>
+                              </tr>
+                              </thead>
+                              <tbody class="x-cate">
+                              {% for list in lists %}
+                              {% if list['p_cate'] == list['fcate_name'] %}
+                                            <tr cate-id='{{list['sid']}}' fid='{{list['fid']}}' >
+                                                <td>{{list['scate_name']}}</td>
+                                                <td class="td-manage">
+                                                    <a title="编辑"  onclick="xadmin.open('编辑',`{{ url_for('admin.s_cate_edit', id=list['sid']) }}`,600,400)" href="javascript:;" class="layui-btn layui-btn layui-btn-xs">
+                                                        <i class="layui-icon">&#xe642;</i>编辑
+                                                    </a>
+                                                    <a title="删除"  href="{{ url_for('admin.s_cate_del', id=list['sid']) }}" class="layui-btn layui-btn-danger layui-btn-xs">
+                                                        <i class="layui-icon" onclick="return confirm('确定删除?');">&#xe640;删除</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                               {% endfor %}
+                              </tbody>
+
+
+                            </table>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+        <script>
+          // 分类展开收起的分类的逻辑
+          //
+          $(function(){
+            $("tbody.x-cate tr[fid!='0']").hide();
+            // 栏目多级显示效果
+            $('.x-show').click(function () {
+                if($(this).attr('status')=='true'){
+                    $(this).html('&#xe625;');
+                    $(this).attr('status','false');
+                    cateId = $(this).parents('tr').attr('cate-id');
+                    $("tbody tr[fid="+cateId+"]").show();
+               }else{
+                    cateIds = [];
+                    $(this).html('&#xe623;');
+                    $(this).attr('status','true');
+                    cateId = $(this).parents('tr').attr('cate-id');
+                    getCateId(cateId);
+                    for (var i in cateIds) {
+                        console.log(i)
+                        $("tbody tr[cate-id="+cateIds[i]+"]").hide().find('.x-show').html('&#xe623;').attr('status','true');
+                    }
+
+               }
+            })
+          })
+
+          var cateIds = [];
+          function getCateId(cateId) {
+              $("tbody tr[fid="+cateId+"]").each(function(index, el) {
+                  id = $(el).attr('cate-id');
+                  cateIds.push(id);
+                  getCateId(id);
+              });
+          }
+        </script>
+        </div>
+    </body>
+{% endblock %}

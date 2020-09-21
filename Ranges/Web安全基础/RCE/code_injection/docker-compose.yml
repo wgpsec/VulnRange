@@ -1,0 +1,11 @@
+version: '3'
+services:
+ web:
+   image: php:apache
+   container_name: code_injection
+   volumes:
+    - ./www:/var/www/html
+   ports:
+    - "80"
+   environment:
+    - FLAG=flag{39a23b19e7df2581be80091b484687bc}

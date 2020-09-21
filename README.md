@@ -32,9 +32,9 @@ sh start.sh
 
 ## Web安全基础靶场
 
-![](README\image-20200921221721429.png)
+![](README/image-20200921221721429.png)
 
-![](README\image-20200921221823193.png)
+![](README/image-20200921221823193.png)
 
 集合了常见的Web安全漏洞，多数是直接拉取开源的靶场环境，比如DVWA、sqli-labs、upload-labs
 
@@ -42,18 +42,18 @@ sh start.sh
 
 以组件名称分类展示各个中间件和CMS的靶场环境
 
-![](README\image-20200921222204154.png)
+![](README/image-20200921222204154.png)
 
 ## 开启靶机
 
 点击 "启动靶机环境" 即可开启相关靶机。
 
-![](README\image-20200921222527813.png)
+![](README/image-20200921222527813.png)
 
 等的时间过长的话可以切换到系统中看看环境构建进度
 
-![](README\image-20200921222651590.png)
+![](README/image-20200921222651590.png)
 
 靶机环境构建完成后，点击链接即可访问
 
-![](README\image-20200921222813545.png)
+![](README/image-20200921222813545.png)

@@ -57,3 +57,10 @@ sh start.sh
 靶机环境构建完成后，点击链接即可访问
 
 ![](README/image-20200921222813545.png)
+
+# 注意事项
+
+> 1. 项目需要放到 `~/`  当前用户目录下
+> 2. ubuntu 需要将`start.sh`中的`~/`改为绝对路径，如`/home/ubuntu`
+> 3. 关闭Linux防火墙后请重启docker
+

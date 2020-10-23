@@ -18,6 +18,9 @@
 git clone https://github.com/wgpsec/VulnRange.git
 cd VulnRange
 pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple/	#安装项目
+
+
+pip install Flask	#自动安装完启动项目Flask报错后，更新pip 从新安装Flask即可
 ```
 
 # 功能介绍:memo:

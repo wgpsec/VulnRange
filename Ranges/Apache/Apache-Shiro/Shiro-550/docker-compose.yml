@@ -1,0 +1,7 @@
+version: '3'
+services:
+ web:
+   image: vulhub/shiro:1.2.4
+   container_name: Shiro-550
+   ports:
+    - "8080"
